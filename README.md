@@ -1,6 +1,8 @@
 # OpenPDFCreator
 OpenPDFCreator is a simple application that allows you to generate pdf from images.
 
+![application preview image](https://raw.githubusercontent.com/DaveDeDave/OpenPDFCreator/main/docs/preview.png)
+
 ## What i can do?
 You can:
 - add images to your pdf dragging them on the 'plus' icon (or by clicking on it)
