@@ -14,7 +14,7 @@ You can:
 1. npm install
 2. npm start
 
-### Build instruction
+### Build instructions
 If you want to build a portable version of this application just type on your terminal:
 - npm run build
 
