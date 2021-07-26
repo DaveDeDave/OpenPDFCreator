@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./public/css/style.css" rel="stylesheet">
+    <script defer src="./public/js/thirdparty/all.min.js"></script>
+    <title>PDF Creator</title>
+  </head>
+  <body class="d-flex flex-column h-100 text-light ">
+    
+    <!-- Titlebar -->
+    <nav id="titlebar" class="navbar navbar-dark p-0">
+      <div class="container-fluid p-0">
+        <div class="ms-3 titlebarDrag"><i class="fas fa-file-pdf"></i></div>
+        <div id="titlebarSpace" class="px-5 titlebarDrag">&nbsp;</div>
+        <div>
+          <ul id="titlebarButtons" class="nav">
+            <li id="minimize" class="titlebarButton windows" onclick=""><i class="fas fa-window-minimize"></i></li>
+            <li id="maximize" class="titlebarButton windows" onclick=""><i class="far fa-square"></i></li>
+            <li id="close" class="titlebarButton windows" onclick=""><i class="fas fa-times"></i></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#" onclick="openpdfcreator.components.sidebar.show()"><i class="fas fa-bars"></i>&nbsp; OpenPDF Creator</a>
+        <div>
+          <button id="deletePage" type="button" class="btn text-light" onclick="openpdfcreator.onclick.deletePage()" disabled><i class="fas fa-trash-alt"></i></button>
+          <button id="genereatePDF" type="button" class="btn text-light" onclick="openpdfcreator.pdf.generate()" disabled><i class="fas fa-check-square"></i></button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Drag and drop or load images zone -->
+    <div class="h-100 text-center" ondragenter="openpdfcreator.events.ondrag(event)" ondragover="openpdfcreator.events.ondrag(event)" ondragleave="openpdfcreator.style.defaultDropzoneStyle()" ondrop="openpdfcreator.events.ondrop(event)">
+      <i id="dropzone" class="fas fa-plus" onclick="openpdfcreator.onclick.triggerLoadPage()"></i>
+      <input id="loadPage" type="file" accept="image/*" multiple>
+    </div>
+
+
+    <!-- Pdf pages preview -->
+    <div id="preview" class="row rounded text-center">
+      <div class="col-auto my-auto"><button id="left" type="button" class="btn text-light" disabled><i class="fas fa-chevron-left h3 mb-0" onclick="openpdfcreator.onclick.left()"></i></button></div>
+      <div class="col pt-3">
+        <div id="preview_pages" class="row my-auto">
+        </div>
+        <div id="pages_number" class="row">
+        </div>
+      </div>
+      <div class="col-auto my-auto"><button id="right" type="button" class="btn text-light" disabled><i class="fas fa-chevron-right h3 mb-0" onclick="openpdfcreator.onclick.right()"></i></button></div>
+    </div>
+
+
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start bg-dark text-light fix" tabindex="-1" id="sidebar">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebar-title"><i class="fas fa-file-pdf"></i>&nbsp; OpenPDF Creator</h5>
+        <button id="sidebar-close" type="button" class="btn-close btn-close-white text-reset" onclick="openpdfcreator.components.sidebar.hide();"></button>
+      </div>
+      <div id="sidebar-options" class="offcanvas-body">
+        <p class="sidebar-option" onclick="openpdfcreator.onclick.showPreviewModal()">Current pdf</p>
+        <p class="sidebar-option" onclick="openpdfcreator.onclick.showModal(openpdfcreator.components.infoModal)">How does it work?</p>
+        <p class="sidebar-option" onclick="openpdfcreator.onclick.showModal(openpdfcreator.components.aboutModal)">About</p>
+      </div>
+    </div>
+
+    <!-- Preview modal -->
+    <div class="modal fade fix" id="previewModal" tabindex="-1">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content bg-dark">
+          <div class="modal-header border-bottom border-light">
+            <h5 class="modal-title" id="previewTitle">Current pdf</h5>
+            <i class="fas fa-arrow-left text-light btn-close btn-back me-1" onclick="openpdfcreator.onclick.backToSidebar(openpdfcreator.components.previewModal)"></i>
+            <button type="button" class="btn-close btn-close-white ms-0" onclick="openpdfcreator.onclick.hideModal(openpdfcreator.components.previewModal)"></button>
+          </div>
+          <div id="pdfPreview" class="modal-body">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How does it work modal -->
+    <div class="modal fade fix" id="infoModal" tabindex="-1">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content bg-dark">
+          <div class="modal-header border-bottom border-light">
+            <h5 class="modal-title" id="infoTitle">How does it work?</h5>
+            <i class="fas fa-arrow-left text-light btn-close btn-back me-1" onclick="openpdfcreator.onclick.backToSidebar(openpdfcreator.components.infoModal)"></i>
+            <button type="button" class="btn-close btn-close-white ms-0" onclick="openpdfcreator.onclick.hideModal(openpdfcreator.components.infoModal)"></button>
+          </div>
+          <div class="modal-body">
+            <p>Hi! This is OpenPDF Creator, an application that allows you to generate pdf from images.</p>
+            <p>Here's some functionality:</p>
+            <ul>
+              <li>You can upload images by simply dragging them on the plus icon or by clicking on it</li>
+              <li>You can change the pages order dragging them around</li>
+              <li>To delete a page, you have to select it first and then click on the recycle bin icon</li>
+              <li>Once you finish you can generate the pdf by clicking on the top right icon</li>
+            </ul>
+            <p>In addition, you can see the pdf preview from the 'current pdf' option on the sidebar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About modal -->
+    <div class="modal fade fix" id="aboutModal" tabindex="-1">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content bg-dark">
+          <div class="modal-header border-bottom border-light">
+            <h5 class="modal-title" id="aboutTitle">About</h5>
+            <i class="fas fa-arrow-left text-light btn-close btn-back me-1" onclick="openpdfcreator.onclick.backToSidebar(openpdfcreator.components.aboutModal)"></i>
+            <button type="button" class="btn-close btn-close-white ms-0" onclick="openpdfcreator.onclick.hideModal(openpdfcreator.components.aboutModal)"></button>
+          </div>
+          <div class="modal-body">
+            <p class="h5">Technologies</p>
+            <ul>
+              <li>Electron</li>
+              <li>PDFKit</li>
+              <li>Shopify Draggable</li>
+              <li>Browserify</li>
+            </ul>
+            <p class="h5">Developer & repository</p>
+            <ul>
+              <li>DaveDeDave (https://github.com/DaveDeDave)</li>
+              <li>OpenPDF Creator (https://github.com/DaveDeDave/OpenPDF_Creator)</li>
+            </ul>
+            <p>This software is protected by MIT License.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Alert toast -->
+    <div id="alertContainer">
+      <div id="alertToast" class="toast" role="alert">
+        <div class="toast-header bg-dark text-light">
+          <i class="fas fa-exclamation-triangle"></i>
+          <strong class="mx-auto"> Warning</strong>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body bg-dark text-center">
+          <b>You can upload only images!</b>
+        </div>
+      </div>
+    </div>
+
+    <script src="./public/js/thirdparty/draggable.bundle.js"></script>
+    <script src="./public/js/thirdparty/bootstrap.bundle.min.js"></script>
+    <script src="./public/js/dist/openpdfcreator.bundle.js"></script>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
