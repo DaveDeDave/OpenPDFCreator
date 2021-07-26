@@ -7,7 +7,7 @@ OpenPDFCreator is a simple application that allows you to generate pdf from imag
 You can:
 - add images to your pdf dragging them on the 'plus' icon (or by clicking on it)
 - change the pages order by dragging them
-- delete a page after you select it (by clicking on it)
+- delete a selected page by clicking on the 'recycle bin' icon
 - see a (minimal) pdf preview in the sidebar menu
 
 ### How to run?
